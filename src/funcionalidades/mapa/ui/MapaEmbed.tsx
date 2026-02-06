@@ -6,8 +6,6 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import { useProyectos } from "@/funcionalidades/proyectos/estado/estadoProyectos";
 import styles from "./mapaEmbed.module.css";
 
-mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN ?? "";
-
 export function MapaEmbed() {
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -16,8 +14,17 @@ export function MapaEmbed() {
   const proyectos = useProyectos((s) => s.proyectos);
   const proyectoSeleccionadoId = useProyectos((s) => s.proyectoSeleccionadoId);
 
+  const token = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
+
   useEffect(() => {
+    if (!token) {
+      console.error("Falta NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN");
+      return;
+    }
+
     if (!containerRef.current || mapRef.current) return;
+
+    mapboxgl.accessToken = token;
 
     mapRef.current = new mapboxgl.Map({
       container: containerRef.current,
@@ -38,7 +45,12 @@ export function MapaEmbed() {
     });
 
     mapRef.current.addControl(new mapboxgl.NavigationControl(), "top-right");
-  }, []);
+
+    return () => {
+      mapRef.current?.remove();
+      mapRef.current = null;
+    };
+  }, [token]);
 
   useEffect(() => {
     if (!mapRef.current) return;
@@ -86,6 +98,16 @@ export function MapaEmbed() {
   useEffect(() => {
     volarAProyecto(proyectoSeleccionadoId);
   }, [proyectoSeleccionadoId, volarAProyecto]);
+
+  if (!token) {
+    return (
+      <div className={styles.mapa}>
+        <p style={{ padding: 16 }}>
+          No se pudo cargar el mapa. Falta configurar el token de Mapbox.
+        </p>
+      </div>
+    );
+  }
 
   return <div ref={containerRef} className={styles.mapa} />;
 }
