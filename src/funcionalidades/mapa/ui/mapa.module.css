@@ -1,0 +1,18 @@
+.contenedor {
+  padding: 24px;
+}
+
+.mapa {
+  width: 100%;
+  height: calc(100vh - 200px);
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.pin {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #f4b400;
+  border: 2px solid white;
+}

@@ -1,0 +1,20 @@
+:root {
+  --color-fondo: #f6f7f9;
+  --color-superficie: #ffffff;
+  --color-texto: #1f2937;
+  --color-texto-suave: #6b7280;
+
+  --color-borde: #e5e7eb;
+  --color-primario: #f4b400;
+  --color-primario-hover: #d89f00;
+
+  --radio: 12px;
+  --sombra: 0 8px 24px rgba(0, 0, 0, 0.08);
+
+  --espacio-1: 4px;
+  --espacio-2: 8px;
+  --espacio-3: 12px;
+  --espacio-4: 16px;
+  --espacio-5: 20px;
+  --espacio-6: 24px;
+}
